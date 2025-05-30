@@ -1,3 +1,4 @@
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -95,7 +96,29 @@
     @apply border-border;
   }
 
+  html {
+    scroll-behavior: smooth;
+  }
+
   body {
     @apply bg-background text-foreground;
+  }
+}
+
+@layer utilities {
+  .animate-delay-200 {
+    animation-delay: 200ms;
+  }
+  
+  .animate-delay-400 {
+    animation-delay: 400ms;
+  }
+  
+  .animate-delay-600 {
+    animation-delay: 600ms;
+  }
+  
+  .animate-delay-800 {
+    animation-delay: 800ms;
   }
 }
