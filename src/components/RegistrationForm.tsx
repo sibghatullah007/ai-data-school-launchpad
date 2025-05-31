@@ -1,7 +1,7 @@
-
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Upload, CheckCircle, CreditCard, Calendar } from 'lucide-react';
 import { toast } from '@/hooks/use-toast';
+import { initializeGoogleApi, getAuthToken, uploadToDrive, appendToSheet } from '@/lib/googleApi';
 
 const RegistrationForm = () => {
   const [formData, setFormData] = useState({
@@ -12,6 +12,7 @@ const RegistrationForm = () => {
     paymentProof: null as File | null
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isGoogleApiInitialized, setIsGoogleApiInitialized] = useState(false);
 
   const courses = [
     'Web Development',
@@ -19,6 +20,24 @@ const RegistrationForm = () => {
     'Agentic AI',
     'Data Analysis'
   ];
+
+  useEffect(() => {
+    const initGoogleApi = async () => {
+      try {
+        await initializeGoogleApi();
+        setIsGoogleApiInitialized(true);
+      } catch (error) {
+        console.error('Error initializing Google API:', error);
+        toast({
+          title: "Error",
+          description: "Failed to initialize Google services. Please refresh the page.",
+          variant: "destructive"
+        });
+      }
+    };
+
+    initGoogleApi();
+  }, []);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
@@ -51,33 +70,56 @@ const RegistrationForm = () => {
     e.preventDefault();
     setIsSubmitting(true);
 
-    // Validate form
-    if (!formData.name || !formData.email || !formData.whatsapp || !formData.course) {
+    try {
+      // Validate form
+      if (!formData.name || !formData.email || !formData.whatsapp || !formData.course) {
+        toast({
+          title: "Missing Information",
+          description: "Please fill in all required fields",
+          variant: "destructive"
+        });
+        return;
+      }
+
+      // Get authentication token
+      await getAuthToken();
+
+      // Upload file to Google Drive if exists
+      let paymentProofLink = '';
+      if (formData.paymentProof) {
+        const driveResponse = await uploadToDrive(formData.paymentProof);
+        paymentProofLink = driveResponse.webViewLink || '';
+      }
+
+      // Append data to Google Sheet
+      await appendToSheet({
+        ...formData,
+        paymentProofLink
+      });
+
       toast({
-        title: "Missing Information",
-        description: "Please fill in all required fields",
+        title: "Registration Successful!",
+        description: "We'll contact you within 24 hours to confirm your enrollment.",
+      });
+
+      // Reset form
+      setFormData({
+        name: '',
+        email: '',
+        whatsapp: '',
+        course: '',
+        paymentProof: null
+      });
+    } catch (error) {
+      console.error('Error submitting form:', error);
+      toast({
+        title: "Registration Failed",
+        description: "There was an error processing your registration. Please try again.",
         variant: "destructive"
       });
+    } finally {
       setIsSubmitting(false);
-      return;
     }
-
-    // Simulate form submission
-    await new Promise(resolve => setTimeout(resolve, 2000));
-    
-    toast({
-      title: "Registration Successful!",
-      description: "We'll contact you within 24 hours to confirm your enrollment.",
-    });
-
-    setIsSubmitting(false);
-    setFormData({
-      name: '',
-      email: '',
-      whatsapp: '',
-      course: '',
-      paymentProof: null
-    });
   };
 
   return (
