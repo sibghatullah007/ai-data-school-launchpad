@@ -39,10 +39,12 @@ export function initializeGoogleApi() {
     const script2 = document.createElement('script');
     script2.src = 'https://accounts.google.com/gsi/client';
     script2.onload = () => {
+      const currentOrigin = window.location.origin;
       tokenClient = google.accounts.oauth2.initTokenClient({
         client_id: CLIENT_ID,
         scope: SCOPES,
         callback: '', // defined later
+        redirect_uri: currentOrigin,
       });
       gisInited = true;
       resolve(true);
