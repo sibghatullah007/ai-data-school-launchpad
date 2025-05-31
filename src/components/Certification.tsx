@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Award, CheckCircle } from 'lucide-react';
 
@@ -22,22 +21,12 @@ const Certification = () => {
           <div>
             <div className="bg-gradient-to-br from-green-50 to-green-100 p-8 rounded-2xl border-2 border-green-200 shadow-xl">
               <div className="text-center">
-                <div className="w-full h-64 bg-white rounded-xl shadow-lg flex items-center justify-center mb-6 border-4 border-green-800">
-                  <div className="text-center">
-                    <div className="text-green-800 mb-4">
-                      <Award size={60} />
-                    </div>
-                    <h3 className="text-2xl font-bold text-green-800 mb-2">CERTIFICATE</h3>
-                    <p className="text-green-700 font-semibold">AI Data School</p>
-                    <div className="border-t-2 border-green-300 mt-4 pt-4">
-                      <p className="text-green-600">This certifies that</p>
-                      <p className="font-bold text-green-800 text-lg">[Student Name]</p>
-                      <p className="text-green-600">has successfully completed</p>
-                      <p className="font-bold text-green-800">[Course Name]</p>
-                    </div>
-                  </div>
-                </div>
-                <p className="text-green-700 font-semibold">Official Certificate Preview</p>
+                <img 
+                  src="/lovable-uploads/certificate.png"
+                  alt="Certificate Preview"
+                  className="w-full max-w-md mx-auto"
+                />
+                <p className="text-green-700 font-semibold">Official Certificate</p>
               </div>
             </div>
           </div>

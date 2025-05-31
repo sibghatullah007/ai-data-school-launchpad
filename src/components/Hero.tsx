@@ -27,7 +27,7 @@ const Hero = () => {
       </div>
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center mt-16">
-        <div className="flex items-center justify-center mb-6">
+        <div className="flex items-center justify-center mb-6 mt-20 md:mt-0">
           <Sparkles className="text-yellow-400 mr-2" size={32} />
           <span className="bg-yellow-400 text-green-900 px-4 py-2 rounded-full font-bold text-sm">
             🔥 BATCH 2 NOW STARTING

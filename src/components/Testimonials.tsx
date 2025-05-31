@@ -1,45 +1,45 @@
-
 import React, { useState } from 'react';
 import { ChevronLeft, ChevronRight, Star, Play } from 'lucide-react';
 
 const Testimonials = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
+  const [playingVideo, setPlayingVideo] = useState<string | null>(null);
 
   const testimonials = [
     {
       id: 1,
-      name: "Ahmed Hassan",
-      course: "Web Development",
-      image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face",
-      videoId: "dQw4w9WgXcQ", // Placeholder YouTube video ID
-      quote: "AI Data School transformed my career. The hands-on training was exactly what I needed to land my dream job.",
+      name: "Mahnoor Malik",
+      course: "Senior Data Analyst at AI Data House",
+      image: "/lovable-uploads/mahnoor.png",
+      videoId: "wLITv_4gYyg",
+      quote: "AI Data School provided me with the perfect platform to grow into a leadership role. The advanced analytics training and mentorship helped me excel in my career.",
       rating: 5
     },
     {
       id: 2,
-      name: "Fatima Ali",
-      course: "Data Analysis",
-      image: "https://images.unsplash.com/photo-1494790108755-2616b612b47c?w=150&h=150&fit=crop&crop=face",
-      videoId: "dQw4w9WgXcQ", // Placeholder YouTube video ID
-      quote: "The instructors are industry experts who really care about student success. Best investment I've made!",
+      name: "Muhammad Dawood",
+      course: "Agentic AI Intern at AI Data House",
+      image: "/lovable-uploads/dawood.png",
+      videoId: "3XxomATYX9w",
+      quote: "As an intern, I'm amazed by the practical exposure I'm getting. Working on real AI automation projects has accelerated my learning curve tremendously.",
       rating: 5
     },
     {
       id: 3,
-      name: "Muhammad Khan",
-      course: "Artificial Intelligence",
-      image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face",
-      videoId: "dQw4w9WgXcQ", // Placeholder YouTube video ID
-      quote: "From zero to AI expert in 3 months. The project-based learning approach made all the difference.",
+      name: "Muhammad Shoaib",
+      course: "Data Analyst Intern at AI Data House",
+      image: "/lovable-uploads/shoiab.png",
+      videoId: "BF5s1fYnPuM",
+      quote: "The internship program here is exceptional. I've learned more in three months than I did in my entire academic career. The hands-on experience is invaluable.",
       rating: 5
     },
     {
       id: 4,
-      name: "Sara Malik",
-      course: "Agentic AI",
-      image: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150&h=150&fit=crop&crop=face",
-      videoId: "dQw4w9WgXcQ", // Placeholder YouTube video ID
-      quote: "The automation skills I learned here helped me start my own digital agency. Amazing program!",
+      name: "Uzair Razzaq",
+      course: "AI Engineer at AI Data House",
+      image: "/lovable-uploads/uzair.png",
+      videoId: "EG8gAkCb0LA",
+      quote: "The advanced AI engineering skills I developed here have opened up incredible opportunities. The program's focus on cutting-edge technologies is exactly what the industry needs.",
       rating: 5
     }
   ];
@@ -50,6 +50,10 @@ const Testimonials = () => {
 
   const prevSlide = () => {
     setCurrentSlide((prev) => (prev - 1 + testimonials.length) % testimonials.length);
+  };
+
+  const handleVideoClick = (videoId: string) => {
+    setPlayingVideo(videoId);
   };
 
   return (
@@ -79,18 +83,33 @@ const Testimonials = () => {
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
                       {/* Video Section */}
                       <div className="relative">
-                        <div className="aspect-video bg-gray-900 rounded-xl overflow-hidden relative group cursor-pointer">
-                          <img
-                            src={`https://img.youtube.com/vi/${testimonial.videoId}/maxresdefault.jpg`}
-                            alt="Video thumbnail"
-                            className="w-full h-full object-cover"
-                          />
-                          <div className="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center group-hover:bg-opacity-30 transition-all">
-                            <div className="bg-red-600 rounded-full p-4 group-hover:scale-110 transition-transform">
-                              <Play className="text-white" size={32} fill="white" />
+                        {playingVideo === testimonial.videoId ? (
+                          <div className="aspect-video bg-gray-900 rounded-xl overflow-hidden">
+                            <iframe
+                              src={`https://www.youtube.com/embed/${testimonial.videoId}?autoplay=1`}
+                              title="YouTube video player"
+                              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                              allowFullScreen
+                              className="w-full h-full"
+                            />
+                          </div>
+                        ) : (
+                          <div 
+                            className="aspect-video bg-gray-900 rounded-xl overflow-hidden relative group cursor-pointer"
+                            onClick={() => handleVideoClick(testimonial.videoId)}
+                          >
+                            <img
+                              src={`https://img.youtube.com/vi/${testimonial.videoId}/maxresdefault.jpg`}
+                              alt="Video thumbnail"
+                              className="w-full h-full object-cover"
+                            />
+                            <div className="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center group-hover:bg-opacity-30 transition-all">
+                              <div className="bg-red-600 rounded-full p-4 group-hover:scale-110 transition-transform">
+                                <Play className="text-white" size={32} fill="white" />
+                              </div>
                             </div>
                           </div>
-                        </div>
+                        )}
                       </div>
 
                       {/* Content Section */}

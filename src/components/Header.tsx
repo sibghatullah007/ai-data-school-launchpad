@@ -21,7 +21,7 @@ const Header = () => {
             <img 
               src="/lovable-uploads/05a37190-e0c0-4ec0-8f76-8fa475c5264c.png" 
               alt="AI Data School" 
-              className="h-10 w-auto"
+              className="h-20 w-auto"
             />
           </div>
           

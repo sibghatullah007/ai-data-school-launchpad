@@ -85,7 +85,7 @@ const RegistrationForm = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
           <h2 className="text-4xl font-bold text-gray-900 mb-4">
-            📅 Scholarship Fee & Registration
+            📅 Fee & Registration
           </h2>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
             Secure your spot in Batch 2 with our flexible payment options
@@ -114,7 +114,7 @@ const RegistrationForm = () => {
             <div className="bg-blue-50 border border-blue-200 rounded-xl p-6">
               <h4 className="text-xl font-semibold text-blue-800 mb-4 flex items-center">
                 <Calendar className="mr-2" size={24} />
-                Installment Plan
+                OR Installment Plan
               </h4>
               <div className="space-y-3">
                 <div className="flex justify-between">
@@ -135,7 +135,6 @@ const RegistrationForm = () => {
             <div className="bg-gray-50 border border-gray-200 rounded-xl p-6">
               <h4 className="text-lg font-semibold text-gray-800 mb-4">Payment Information</h4>
               <div className="text-sm space-y-2 text-gray-700">
-                <p><strong>Scholarship Apply Fee:</strong> 500 PKR</p>
                 <p><strong>Account Title:</strong> AI DATA HOUSE (SMC PRIVATE) LIMITED</p>
                 <p><strong>IBAN:</strong> PK50FAYS3627301000000722</p>
                 <p><strong>Branch:</strong> 3627 (IBB PRIME MALL TOP CITY, ISB)</p>

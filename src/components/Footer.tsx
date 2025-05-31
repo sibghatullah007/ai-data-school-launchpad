@@ -1,6 +1,4 @@
-
-import React from 'react';
-import { Facebook, Phone, MapPin, Mail } from 'lucide-react';
+import { FacebookIcon, Phone, MapPin, Mail } from 'lucide-react';
 
 const Footer = () => {
   const scrollToSection = (sectionId: string) => {
@@ -87,7 +85,7 @@ const Footer = () => {
                 rel="noopener noreferrer"
                 className="flex items-center text-green-100 hover:text-white transition-colors text-sm group"
               >
-                <Facebook size={16} className="mr-2 group-hover:scale-110 transition-transform" />
+                <FacebookIcon size={16} className="mr-2 group-hover:scale-110 transition-transform" />
                 Follow us on Facebook
               </a>
               <a

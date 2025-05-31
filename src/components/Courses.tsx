@@ -1,5 +1,3 @@
-
-import React from 'react';
 import { ArrowRight, Clock, Users, Award } from 'lucide-react';
 
 const Courses = () => {
@@ -107,12 +105,11 @@ const Courses = () => {
               
               <div className="lg:w-1/2 p-8 flex justify-center">
                 <div className="w-64 h-64 bg-gradient-to-br from-green-100 to-green-200 rounded-2xl flex items-center justify-center">
-                  <div className="text-6xl text-green-800">
-                    {course.title === 'Web Development' && '💻'}
-                    {course.title === 'Artificial Intelligence' && '🤖'}
-                    {course.title === 'Agentic AI' && '⚡'}
-                    {course.title === 'Data Analysis' && '📊'}
-                  </div>
+                  <img 
+                    src={course.image} 
+                    alt={course.title}
+                    className="w-60 h-60 object-contain rounded-2xl"
+                  />
                 </div>
               </div>
             </div>
