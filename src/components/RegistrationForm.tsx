@@ -13,6 +13,7 @@ const RegistrationForm = () => {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isGoogleApiInitialized, setIsGoogleApiInitialized] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   const courses = [
     'Web Development',
@@ -82,34 +83,64 @@ const RegistrationForm = () => {
       }
 
       // Get authentication token
-      await getAuthToken();
+      try {
+        await getAuthToken();
+        setIsAuthenticated(true);
+      } catch (authError) {
+        console.error('Authentication error:', authError);
+        toast({
+          title: "Authentication Failed",
+          description: "Please try again or contact support if the issue persists.",
+          variant: "destructive"
+        });
+        return;
+      }
 
       // Upload file to Google Drive if exists
       let paymentProofLink = '';
       if (formData.paymentProof) {
-        const driveResponse = await uploadToDrive(formData.paymentProof);
-        paymentProofLink = driveResponse.webViewLink || '';
+        try {
+          const driveResponse = await uploadToDrive(formData.paymentProof);
+          paymentProofLink = driveResponse.webViewLink || '';
+        } catch (uploadError) {
+          console.error('File upload error:', uploadError);
+          toast({
+            title: "File Upload Failed",
+            description: "There was an error uploading your payment proof. Please try again.",
+            variant: "destructive"
+          });
+          return;
+        }
       }
 
       // Append data to Google Sheet
-      await appendToSheet({
-        ...formData,
-        paymentProofLink
-      });
+      try {
+        await appendToSheet({
+          ...formData,
+          paymentProofLink
+        });
 
-      toast({
-        title: "Registration Successful!",
-        description: "We'll contact you within 24 hours to confirm your enrollment.",
-      });
+        toast({
+          title: "Registration Successful!",
+          description: "We'll contact you within 24 hours to confirm your enrollment.",
+        });
 
-      // Reset form
-      setFormData({
-        name: '',
-        email: '',
-        whatsapp: '',
-        course: '',
-        paymentProof: null
-      });
+        // Reset form
+        setFormData({
+          name: '',
+          email: '',
+          whatsapp: '',
+          course: '',
+          paymentProof: null
+        });
+      } catch (sheetError) {
+        console.error('Sheet update error:', sheetError);
+        toast({
+          title: "Registration Failed",
+          description: "There was an error saving your registration. Please try again.",
+          variant: "destructive"
+        });
+      }
     } catch (error) {
       console.error('Error submitting form:', error);
       toast({

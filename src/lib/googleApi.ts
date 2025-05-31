@@ -39,12 +39,12 @@ export function initializeGoogleApi() {
     const script2 = document.createElement('script');
     script2.src = 'https://accounts.google.com/gsi/client';
     script2.onload = () => {
-      const currentOrigin = window.location.origin;
       tokenClient = google.accounts.oauth2.initTokenClient({
         client_id: CLIENT_ID,
         scope: SCOPES,
         callback: '', // defined later
-        redirect_uri: currentOrigin,
+        prompt: 'consent',
+        hint: '',
       });
       gisInited = true;
       resolve(true);
@@ -56,13 +56,24 @@ export function initializeGoogleApi() {
 export async function getAuthToken() {
   return new Promise((resolve, reject) => {
     try {
+      // Clear any existing tokens
+      if (gapi.client.getToken()) {
+        gapi.client.setToken(null);
+      }
+
       tokenClient.callback = (resp: any) => {
         if (resp.error) {
           reject(resp);
+          return;
         }
         resolve(resp);
       };
-      tokenClient.requestAccessToken();
+
+      if (gapi.client.getToken() === null) {
+        tokenClient.requestAccessToken({ prompt: 'consent' });
+      } else {
+        tokenClient.requestAccessToken({ prompt: '' });
+      }
     } catch (err) {
       reject(err);
     }
@@ -81,13 +92,22 @@ export async function uploadToDrive(file: File) {
     form.append('metadata', new Blob([JSON.stringify(metadata)], { type: 'application/json' }));
     form.append('file', file);
 
+    const token = gapi.client.getToken();
+    if (!token) {
+      throw new Error('No access token available');
+    }
+
     const response = await fetch('https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart', {
       method: 'POST',
       headers: {
-        Authorization: `Bearer ${gapi.client.getToken().access_token}`,
+        Authorization: `Bearer ${token.access_token}`,
       },
       body: form,
     });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
 
     const result = await response.json();
     return result;
